@@ -1,10 +1,11 @@
 // main.js
 import { grade1Topics } from './grades/grade1.js';
+import { grade2Topics } from './grades/grade2.js';
 // (Sẽ import các lớp khác khi hoàn thiện)
 
 const TOPICS_DB = {
     '1': grade1Topics,
-    '2': [], // Placeholder cho Lớp 2
+    '2': grade2Topics,
     '3': [], // Placeholder cho Lớp 3
     '4': [], // Placeholder cho Lớp 4
     '5': []  // Placeholder cho Lớp 5

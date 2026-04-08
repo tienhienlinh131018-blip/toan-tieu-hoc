@@ -213,8 +213,236 @@ function gen_2_review() {
     return html;
 }
 
+// Chương 3: Phép cộng, trừ (không nhớ) trong phạm vi 1000
+function gen_2_3() {
+    let html = buildSectionTitle("Chương 3: Phép tính trong phạm vi 1000");
+    let c1 = '';
+    let qIdx = 1;
+
+    let counts = distributeExactCount([1, 1]); 
+    let ngangCount = counts[0];
+    let docCount = counts[1];
+
+    // Tính nhẩm (Ngang - Số tròn chục, tròn trăm)
+    for (let i = 0; i < ngangCount; i++) {
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j);
+            let isAdd = Math.random() > 0.5;
+            let c, a, b;
+            if (isAdd) {
+                // Ví dụ 300 + 400 hoặc 350 + 200
+                let a_h = rand(1, 5), b_h = rand(1, 4);
+                let a_t = rand(0, 5), b_t = rand(0, 4);
+                a = a_h * 100 + a_t * 10;
+                b = b_h * 100 + b_t * 10;
+                c = a + b;
+                subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} + ${b} = ${formatAns(c)}</div>`;
+            } else {
+                let a_h = rand(5, 9), b_h = rand(1, a_h - 1);
+                let a_t = rand(5, 9), b_t = rand(1, a_t - 1);
+                a = a_h * 100 + a_t * 10;
+                b = b_h * 100 + b_t * 10;
+                c = a - b;
+                subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} - ${b} = ${formatAns(c)}</div>`;
+            }
+        }
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem;">Câu ${qIdx++}: Tính nhẩm</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div>
+        </div>`;
+    }
+    html += buildGrid(4, c1);
+    
+    // Đặt tính rồi tính (Dọc)
+    let c2 = '';
+    for (let i = 0; i < docCount; i++) {
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j);
+            let isAdd = Math.random() > 0.5;
+            let c, a, b;
+            if (isAdd) {
+                let a_h = rand(1,5), b_h = rand(1,4);
+                let a_t = rand(1,5), b_t = rand(1,4);
+                let a_o = rand(1,5), b_o = rand(1,4);
+                a = a_h * 100 + a_t * 10 + a_o; 
+                b = b_h * 100 + b_t * 10 + b_o; 
+                c = a + b;
+            } else {
+                let a_h = rand(5,9), b_h = rand(1, a_h-1);
+                let a_t = rand(5,9), b_t = rand(1, a_t-1);
+                let a_o = rand(5,9), b_o = rand(1, a_o-1);
+                a = a_h * 100 + a_t * 10 + a_o; 
+                b = b_h * 100 + b_t * 10 + b_o; 
+                c = a - b;
+            }
+            subItems += `<div class="q-col">
+                <div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div>
+                <div class="val-a">${a}</div>
+                <div class="val-op">${isAdd ? '+' : '-'}</div>
+                <div class="val-b">${b}</div>
+                <div class="line"></div>
+                <div class="answer">${c}</div>
+            </div>`;
+        }
+        c2 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 2rem; border-top: 2px dashed #e2e8f0; padding-top: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 2rem;">Câu ${qIdx++}: Đặt tính rồi tính</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div>
+        </div>`;
+    }
+    html += buildGrid(4, c2);
+    return html;
+}
+
+// Chương 4: Đại lượng (Độ dài, Khối lượng, Dung tích)
+function gen_2_4() {
+    let html = buildSectionTitle("Chương 4: Khối lượng (kg), Dung tích (lít), Độ dài (m, km)");
+    let c1 = '';
+    let qIdx = 1;
+
+    let total = distributeExactCount([1])[0];
+    
+    // Bài toán có lời văn về đo lường
+    for(let i=0; i<total; i++) {
+        let isAdd = Math.random() > 0.5;
+        let v1, v2, ans;
+        let problemText;
+        
+        let unitOps = [
+            { unit: 'kg', items: ['Gạo', 'Ngô', 'Thịt', 'Đường'] },
+            { unit: 'l', items: ['Dầu', 'Nước', 'Sữa', 'Nước mắm'] }
+        ];
+        let op = unitOps[rand(0, 1)];
+        let item = op.items[rand(0, op.items.length - 1)];
+        
+        if (isAdd) {
+            v1 = rand(15, 30); v2 = rand(5, 15); ans = v1 + v2;
+            problemText = `Gia đình Lan mua ${v1}${op.unit} ${item.toLowerCase()}. Sau đó mua thêm ${v2}${op.unit} nữa. Hỏi gia đình Lan đã mua tất cả bao nhiêu ${op.unit} ${item.toLowerCase()}?`;
+        } else {
+            v1 = rand(20, 50); v2 = rand(5, 15); ans = v1 - v2;
+            problemText = `Một người bán hàng có ${v1}${op.unit} ${item.toLowerCase()}, buổi sáng bán được ${v2}${op.unit}. Hỏi người đó còn lại bao nhiêu ${op.unit} ${item.toLowerCase()}?`;
+        }
+        
+        c1 += `<div class="word-problem" style="margin-bottom: 2.5rem; grid-column: span 4;">
+            <div class="wp-text" style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem;">Câu ${qIdx++}. ${problemText}</div>
+            <div class="wp-workspace" style="padding-left: 1.5rem;">
+                <div style="font-size: 1.25rem; font-weight: 600; font-style: italic; margin-bottom: 0.8rem;">Bài giải:</div>
+                <div class="wp-answer-detail" style="line-height: 2.2; font-size: 1.2rem;">
+                    <div style="border-bottom: 2px dotted #cbd5e1; width: 100%; min-height: 3rem; display: flex; align-items: end;">${formatAns(`Số ${op.unit} ${item.toLowerCase()} ${isAdd ? 'gia đình Lan mua là' : 'người đó còn lại là'}:`)}</div>
+                    <div style="border-bottom: 2px dotted #cbd5e1; width: 100%; min-height: 3rem; display: flex; align-items: end;">${formatAns(`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${v1} ${isAdd?'+':'-'} ${v2} = ${ans} (${op.unit})`)}</div>
+                    <div style="border-bottom: 2px dotted #cbd5e1; width: 100%; min-height: 3rem; display: flex; align-items: end;">${formatAns(`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đáp số: ${ans} ${op.unit}`)}</div>
+                </div>
+            </div>
+        </div>`;
+    }
+    
+    html += buildGrid(4, c1);
+    return html;
+}
+
+// Đề Ôn Tập Học Kỳ 2 (Lớp 2)
+function gen_2_review_2() {
+    let html = buildSectionTitle("Phần I: Trắc Nghiệm (Khoanh vào chữ cái đặt trước câu trả lời đúng)");
+    let c1 = '';
+    let qIdx = 1;
+    
+    let counts = distributeExactCount([6, 4]); // 60% Trắc nghiệm, 40% Tự luận
+    let mcCount = counts[0];
+    let essayCount = counts[1];
+    
+    // Trắc nghiệm
+    for(let i=0; i<mcCount; i++) {
+        let type = rand(1, 3);
+        let questionText, correctAns;
+        let pOptions = [];
+        
+        if (type === 1) {
+            // Chu vi hình tam giác
+            let a = rand(3, 8), b = rand(3, 8), c = rand(4, 9);
+            correctAns = a + b + c;
+            questionText = `Hình tam giác có độ dài các cạnh lần lượt là ${a}cm, ${b}cm, ${c}cm thì Chu vi hình tam giác là:`;
+            pOptions = [correctAns, correctAns + 2, correctAns - 1, rand(10, 30)];
+        } else if (type === 2) {
+            // Phép tính 1000
+            let a = rand(2, 6) * 100;
+            let b = rand(1, 4) * 100;
+            correctAns = a + b;
+            questionText = `Kết quả của phép tính ${a} + ${b} là:`;
+            pOptions = [correctAns, correctAns + 100, correctAns - 100, rand(300, 900)];
+        } else {
+            // Toán tìm khối lượng
+            let base = rand(10, 20);
+            correctAns = base;
+            questionText = `Biết Con ngỗng nặng 5kg, Con lợn nặng hơn con ngỗng ${base - 5}kg. Hỏi Con lợn nặng bao nhiêu kg?`;
+            pOptions = [correctAns, base + 5, base - 5, rand(5, 30)];
+        }
+        
+        // UNIQUE Options
+        pOptions = [...new Set(pOptions)];
+        while(pOptions.length < 4) {
+            let fallback = correctAns + rand(-5, 5);
+            if (!pOptions.includes(fallback) && fallback > 0) pOptions.push(fallback);
+        }
+        pOptions = shuffle(pOptions);
+        
+        let optHTML = pOptions.map((v, idx) => {
+            let label = String.fromCharCode(65+idx);
+            let isCorrect = (v === correctAns);
+            let unit = (type === 1) ? 'cm' : ((type === 3) ? 'kg' : '');
+            return `<div><span class="mc-label ${isCorrect ? 'mc-ans' : ''}">${label}</span>. ${v}${unit}</div>`;
+        }).join('');
+        
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 0.8rem; font-size: 1.35rem; font-weight: 700;">Câu ${qIdx++}. ${questionText}</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); padding-left: 1.5rem; font-weight: 600; font-size: 1.25rem;">${optHTML}</div>
+        </div>`;
+    }
+    html += buildGrid(4, c1);
+    
+    html += buildSectionTitle("Phần II: Tự Luận");
+    let c2 = '';
+    
+    // Tự luận (Toán đố và Tính tiền)
+    for(let i=0; i<essayCount; i++) {
+        let isAdd = Math.random() > 0.5;
+        let v1, v2, ans;
+        let problemText, questionPart;
+        
+        if (isAdd) {
+            v1 = rand(1, 4) * 100; v2 = rand(1, 3) * 100; ans = v1 + v2;
+            problemText = `Ngày thứ nhất trang trại thu hoạch được ${v1} quả trứng. Ngày thứ hai trang trại thu hoạch được ${v2} quả trứng.`;
+            questionPart = `Hỏi cả hai ngày trang trại đó thu hoạch được bao nhiêu quả trứng?`;
+        } else {
+            v1 = rand(4, 8) * 100; v2 = rand(1, 3) * 100; ans = v1 - v2;
+            problemText = `Cửa hàng có ${v1} gói kẹo, đã bán được ${v2} gói.`;
+            questionPart = `Hỏi cửa hàng còn lại bao nhiêu gói kẹo?`;
+        }
+        
+        let unit = isAdd ? 'quả' : 'gói kẹo';
+        
+        c2 += `<div class="word-problem" style="margin-bottom: 2.5rem; grid-column: span 4;">
+            <div class="wp-text" style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem;">Câu ${qIdx++}. ${problemText} ${questionPart}</div>
+            <div class="wp-workspace" style="padding-left: 1.5rem;">
+                <div style="font-size: 1.25rem; font-weight: 600; font-style: italic; margin-bottom: 0.8rem;">Bài giải:</div>
+                <div class="wp-answer-detail" style="line-height: 2.2; font-size: 1.2rem;">
+                    <div style="border-bottom: 2px dotted #cbd5e1; width: 100%; min-height: 3rem; display: flex; align-items: end;">${formatAns(`Số ${unit} ${isAdd ? 'cả hai ngày thu hoạch được' : 'cửa hàng còn lại'} là:`)}</div>
+                    <div style="border-bottom: 2px dotted #cbd5e1; width: 100%; min-height: 3rem; display: flex; align-items: end;">${formatAns(`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${v1} ${isAdd?'+':'-'} ${v2} = ${ans} (${unit})`)}</div>
+                    <div style="border-bottom: 2px dotted #cbd5e1; width: 100%; min-height: 3rem; display: flex; align-items: end;">${formatAns(`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đáp số: ${ans} ${unit}`)}</div>
+                </div>
+            </div>
+        </div>`;
+    }
+    html += buildGrid(4, c2);
+    
+    return html;
+}
+
 export const grade2Topics = [
     { title: "Chương 1: Phép tính có nhớ (P.V 100)", generate: gen_2_1 },
     { title: "Chương 2: Phép nhân chia 2, 5", generate: gen_2_2 },
-    { title: "Ôn Tập Học Kỳ 1 (Lớp 2)", generate: gen_2_review }
+    { title: "Ôn Tập Học Kỳ 1 (Lớp 2)", generate: gen_2_review },
+    { title: "Chương 3: Phép tính P.V 1000", generate: gen_2_3 },
+    { title: "Chương 4: Đo Lường (kg, m, l, km)", generate: gen_2_4 },
+    { title: "Ôn Tập Chung Học Kỳ 2", generate: gen_2_review_2 }
 ];

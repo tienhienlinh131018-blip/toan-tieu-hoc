@@ -10,59 +10,64 @@ function gen_2_1() {
     let ngangCount = counts[0];
     let docCount = counts[1];
 
-    // Tính nhẩm (Ngang)
+    // Tính nhẩm (Ngang) - Gom thành các Nhóm (A, B, C, D)
     for (let i = 0; i < ngangCount; i++) {
-        let isAdd = Math.random() > 0.5;
-        let c, a, b;
-        let numPrefix = `<span style="font-size: 1.1rem; color: #64748b; font-weight: 700; display: inline-block; width: 45px;">Câu ${qIdx++}:</span>`;
-        if (isAdd) {
-            // Đảm bảo có nhớ
-            let a_ones = rand(3, 9);
-            let b_ones = rand(10 - a_ones, 9); // Tổng hàng đơn vị >= 10
-            let a_tens = rand(1, 7);
-            let b_tens = rand(1, 8 - a_tens);
-            a = a_tens * 10 + a_ones;
-            b = b_tens * 10 + b_ones;
-            c = a + b;
-            c1 += `<div class="q-item" style="grid-column: span 2; font-size: 1.4rem;">${numPrefix}${a} + ${b} = ${formatAns(c)}</div>`;
-        } else {
-            // Trừ có mượn
-            let a_ones = rand(0, 8);
-            let b_ones = rand(a_ones + 1, 9); // Hàng đơn vị của số bị trừ nhỏ hơn số trừ
-            let a_tens = rand(3, 9);
-            let b_tens = rand(1, a_tens - 1);
-            a = a_tens * 10 + a_ones;
-            b = b_tens * 10 + b_ones;
-            c = a - b;
-            c1 += `<div class="q-item" style="grid-column: span 2; font-size: 1.4rem;">${numPrefix}${a} - ${b} = ${formatAns(c)}</div>`;
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j); // A, B, C, D
+            let isAdd = Math.random() > 0.5;
+            let c, a, b;
+            if (isAdd) {
+                let a_ones = rand(3, 9); let b_ones = rand(10 - a_ones, 9);
+                let a_tens = rand(1, 7); let b_tens = rand(1, 8 - a_tens);
+                a = a_tens * 10 + a_ones; b = b_tens * 10 + b_ones; c = a + b;
+                subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} + ${b} = ${formatAns(c)}</div>`;
+            } else {
+                let a_ones = rand(0, 8); let b_ones = rand(a_ones + 1, 9);
+                let a_tens = rand(3, 9); let b_tens = rand(1, a_tens - 1);
+                a = a_tens * 10 + a_ones; b = b_tens * 10 + b_ones; c = a - b;
+                subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} - ${b} = ${formatAns(c)}</div>`;
+            }
         }
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem;">Câu ${qIdx++}: Tính</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div>
+        </div>`;
     }
     
     html += buildGrid(4, c1);
     
-    // Đặt tính rồi tính (Dọc)
-    html += buildSectionTitle("Đặt tính rồi tính:");
+    // Đặt tính rồi tính (Dọc) - Gom nhóm
     let c2 = '';
     for (let i = 0; i < docCount; i++) {
-        let isAdd = Math.random() > 0.5;
-        let c, a, b;
-        if (isAdd) {
-            let a_o = rand(2, 9), b_o = rand(10 - a_o, 9);
-            let a_t = rand(1, 6), b_t = rand(1, 7 - a_t);
-            a = a_t * 10 + a_o; b = b_t * 10 + b_o; c = a + b;
-        } else {
-            let a_o = rand(0, 7), b_o = rand(a_o + 1, 9);
-            let a_t = rand(4, 9), b_t = rand(1, a_t - 1);
-            a = a_t * 10 + a_o; b = b_t * 10 + b_o; c = a - b;
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j);
+            let isAdd = Math.random() > 0.5;
+            let c, a, b;
+            if (isAdd) {
+                let a_o = rand(2, 9), b_o = rand(10 - a_o, 9);
+                let a_t = rand(1, 6), b_t = rand(1, 7 - a_t);
+                a = a_t * 10 + a_o; b = b_t * 10 + b_o; c = a + b;
+            } else {
+                let a_o = rand(0, 7), b_o = rand(a_o + 1, 9);
+                let a_t = rand(4, 9), b_t = rand(1, a_t - 1);
+                a = a_t * 10 + a_o; b = b_t * 10 + b_o; c = a - b;
+            }
+            
+            subItems += `<div class="q-col">
+                <div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div>
+                <div class="val-a">${a}</div>
+                <div class="val-op">${isAdd ? '+' : '-'}</div>
+                <div class="val-b">${b}</div>
+                <div class="line"></div>
+                <div class="answer">${c}</div>
+            </div>`;
         }
         
-        c2 += `<div class="q-col">
-            <div style="position: absolute; left: -35px; top: 0px; font-size: 1rem; color:#64748b; font-weight:700;">Câu ${qIdx++}:</div>
-            <div class="val-a">${a}</div>
-            <div class="val-op">${isAdd ? '+' : '-'}</div>
-            <div class="val-b">${b}</div>
-            <div class="line"></div>
-            <div class="answer">${c}</div>
+        c2 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 2rem; border-top: 2px dashed #e2e8f0; padding-top: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 2rem;">Câu ${qIdx++}: Đặt tính rồi tính</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div>
         </div>`;
     }
     html += buildGrid(4, c2);
@@ -78,21 +83,29 @@ function gen_2_2() {
 
     let total = distributeExactCount([1])[0]; // Tính theo tổng số lượng bài người dùng muốn
     
-    // Mix nhân chia
+    // Mix nhân chia gom nhóm A B C D
     for (let i = 0; i < total; i++) {
-        let base = Math.random() > 0.5 ? 2 : 5; // Chọn bảng 2 hoặc 5
-        let isMultiply = Math.random() > 0.5;
-        let numPrefix = `<span style="font-size: 1.1rem; color: #64748b; font-weight: 700; display: inline-block; width: 45px;">Câu ${qIdx++}:</span>`;
-        
-        let multiple = rand(2, 10);
-        if (isMultiply) {
-            let options = Math.random() > 0.5 ? `${base} x ${multiple}` : `${multiple} x ${base}`;
-            let ans = base * multiple;
-            c1 += `<div class="q-item" style="grid-column: span 1; font-size: 1.5rem; white-space: nowrap;">${numPrefix}${options} = ${formatAns(ans)}</div>`;
-        } else {
-            let totalVal = base * multiple;
-            c1 += `<div class="q-item" style="grid-column: span 1; font-size: 1.5rem; white-space: nowrap;">${numPrefix}${totalVal} : ${base} = ${formatAns(multiple)}</div>`;
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j);
+            let base = Math.random() > 0.5 ? 2 : 5;
+            let isMultiply = Math.random() > 0.5;
+            let multiple = rand(2, 10);
+            
+            if (isMultiply) {
+                let options = Math.random() > 0.5 ? `${base} x ${multiple}` : `${multiple} x ${base}`;
+                let ans = base * multiple;
+                subItems += `<div style="font-size: 1.5rem; white-space: nowrap;"><b>${label}.</b> ${options} = ${formatAns(ans)}</div>`;
+            } else {
+                let totalVal = base * multiple;
+                subItems += `<div style="font-size: 1.5rem; white-space: nowrap;"><b>${label}.</b> ${totalVal} : ${base} = ${formatAns(multiple)}</div>`;
+            }
         }
+        
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem;">Câu ${qIdx++}: Tính nhẩm</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div>
+        </div>`;
     }
     
     html += buildGrid(4, c1);

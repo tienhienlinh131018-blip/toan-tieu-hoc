@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Toán Học Tiểu Học (BGD 2018)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar no-print">
+            <div class="logo">
+                <span class="emoji">🎓</span>
+                <h1>Toán Tiểu Học</h1>
+            </div>
+            
+            <div class="grade-selector">
+                <h3>Chọn Khối Lớp</h3>
+                <div class="grade-tabs" id="grade-tabs">
+                    <button class="grade-tab active" data-grade="1">Lớp 1</button>
+                    <button class="grade-tab" data-grade="2">Lớp 2</button>
+                    <button class="grade-tab" data-grade="3">Lớp 3</button>
+                    <button class="grade-tab" data-grade="4">Lớp 4</button>
+                    <button class="grade-tab" data-grade="5">Lớp 5</button>
+                </div>
+            </div>
+
+            <div class="chapter-selector">
+                <h3>Danh mục bài học</h3>
+                <div id="chapter-list" class="chapter-list">
+                    <!-- Chapters populated dynamically by JS -->
+                </div>
+            </div>
+            
+            <div class="settings-panel">
+                <h3>Tùy chỉnh Đề</h3>
+                <div class="setting-item">
+                    <label for="q-count">Số lượng rải đề (Tỉ lệ):</label>
+                    <input type="number" id="q-count" min="1" max="100" value="10" class="input-number">
+                </div>
+                
+                <div class="setting-item switch-wrap">
+                    <label>Hiện Đáp Án</label>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-ans">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <button id="btn-regen" class="btn-primary" style="width:100%; margin-top:20px; background-color: #3b82f6;">🔄 Tạo Lại Đề Mới</button>
+                <button onclick="window.print()" class="btn-primary" style="width:100%; margin-top:10px;">🖨️ In Đề Bài</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <div id="test-paper" class="a4-container">
+                <div class="paper-header">
+                    <div class="text-left">
+                        <p>Họ tên: ............................................</p>
+                        <p>Lớp: .........</p>
+                    </div>
+                    <div class="text-right">
+                        <p>Điểm: ......... / 10</p>
+                        <p>Lời phê: ............................................</p>
+                    </div>
+                </div>
+                
+                <h2 id="paper-title" class="paper-title">Đề Ôn Tập Toán</h2>
+                
+                <div id="dynamic-content" class="paper-content">
+                    <!-- Dynamic Questions Here -->
+                    <div class="welcome-screen">
+                        <span style="font-size: 3rem;">👋</span>
+                        <h3>Chào mừng đến với Hệ thống Toán học</h3>
+                        <p>Vui lòng thử chọn một chủ đề ở danh mục bên tay trái để bắt đầu!</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Runtime: Tải JS theo cấu trúc module gốc ES6 -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

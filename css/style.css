@@ -62,13 +62,13 @@ input:checked + .slider:before { transform: translateX(22px); }
 
 /* New Academic Headers */
 .paper-header { display: flex; justify-content: space-between; gap: 20px; border-bottom: 3px double #D1D5DB; padding-bottom: 25px; margin-bottom: 30px; font-weight: 600; }
-.ph-school-info { flex: 1; display: flex; flex-direction: column; }
+.ph-school-info { flex: 2; display: flex; flex-direction: column; }
 .ph-score-box { width: 140px; border: 3px solid #EF4444; border-radius: 8px; display: flex; flex-direction: column; text-align: center; overflow: hidden; }
 .ph-score-box .box-label { background: #EF4444; color: white; padding: 6px 0; font-weight: 800; font-size: 1rem; text-transform: uppercase; }
 .ph-score-box .box-content { flex: 1; min-height: 80px; }
-.ph-teacher-feedback { width: 250px; border: 2px solid #9CA3AF; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; }
-.ph-teacher-feedback .box-label { text-align: center; font-weight: 700; font-size: 0.95rem; color: #4B5563; margin-bottom: 10px; }
-.ph-teacher-feedback .box-line { margin-bottom: 15px; color: #9CA3AF; letter-spacing: 2px; }
+.ph-teacher-feedback { flex: 1.5; border: 2px solid #9CA3AF; border-radius: 8px; padding: 10px 15px; display: flex; flex-direction: column; }
+.ph-teacher-feedback .box-label { text-align: center; font-weight: 700; font-size: 0.95rem; color: #4B5563; margin-bottom: 15px; }
+.ph-teacher-feedback .box-line { margin-bottom: 22px; border-bottom: 2px dotted #9CA3AF; height: 1rem; width: 100%; }
 
 .paper-title { text-align: center; font-size: 2.2rem; margin-bottom: 2rem; font-weight: 800; text-transform: uppercase; color: var(--text-main); }
 .welcome-screen { text-align: center; margin-top: 100px; color: #9CA3AF; }

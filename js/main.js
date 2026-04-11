@@ -11,6 +11,9 @@ const TOPICS_DB = {
     '5': []  // Placeholder cho Lớp 5
 };
 
+const HISTORY_KEY = 'math_quiz_history';
+const MAX_HISTORY = 20;
+
 let currentGrade = '1';
 let currentTopicId = null;
 let answersVisible = false;
@@ -23,6 +26,12 @@ const dynamicContent = document.getElementById('dynamic-content');
 const paperTitle = document.getElementById('paper-title');
 const chapterList = document.getElementById('chapter-list');
 const gradeTabs = document.querySelectorAll('.grade-tab');
+
+// History Elements
+const btnHistory = document.getElementById('btn-history');
+const historyModal = document.getElementById('history-modal');
+const btnCloseHistory = document.getElementById('btn-close-history');
+const historyList = document.getElementById('history-list');
 
 // 1. Quản lý UI chung
 let debounceTimer;
@@ -108,8 +117,73 @@ function generateCurrentTest() {
     // Ráp mã HTML sinh ra từ hàm
     dynamicContent.innerHTML = topic.generate();
     
+    // Lưu vào Lịch sử
+    saveToHistory(paperTitle.innerText, dynamicContent.innerHTML);
+    
     // Giữ trạng thái đáp án
     if(answersVisible) testPaper.classList.add('show-answers');
+}
+
+// 4. Lịch Sử Đề (Thêm Mới)
+function saveToHistory(title, contentHtml) {
+    try {
+        let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        const now = new Date();
+        const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+        
+        history.unshift({
+            id: Date.now(),
+            title: title + " (" + document.getElementById('q-count').value + " câu)",
+            time: timeString,
+            content: contentHtml
+        });
+        
+        if(history.length > MAX_HISTORY) {
+            history.pop();
+        }
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    } catch (e) { console.error("Local storage error:", e); }
+}
+
+if(btnHistory) {
+    btnHistory.addEventListener('click', () => {
+        renderHistoryList();
+        historyModal.classList.add('show');
+    });
+}
+if(btnCloseHistory) {
+    btnCloseHistory.addEventListener('click', () => historyModal.classList.remove('show'));
+}
+window.addEventListener('click', (e) => {
+    if (e.target === historyModal) historyModal.classList.remove('show');
+});
+
+function renderHistoryList() {
+    try {
+        let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        historyList.innerHTML = '';
+        if(history.length === 0) {
+            historyList.innerHTML = '<li style="text-align:center; padding: 20px; color: #9CA3AF;">Hiện chưa có lịch sử đề nào.</li>';
+            return;
+        }
+        history.forEach(item => {
+            let li = document.createElement('li');
+            li.className = 'history-item';
+            li.innerHTML = `
+                <div>
+                    <div class="hist-title">${item.title}</div>
+                    <div class="hist-time">${item.time}</div>
+                </div>
+            `;
+            li.addEventListener('click', () => {
+                paperTitle.innerText = item.title + " (Xem lại)";
+                dynamicContent.innerHTML = item.content;
+                document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
+                historyModal.classList.remove('show');
+            });
+            historyList.appendChild(li);
+        });
+    } catch (e) { console.error("Error loading history", e); }
 }
 
 // Khởi chạy hệ thống mặc định

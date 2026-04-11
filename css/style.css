@@ -101,3 +101,21 @@ input:checked + .slider:before { transform: translateX(22px); }
     /* Hide scrollbars during print */
     ::-webkit-scrollbar { display: none; }
 }
+
+/* Modal Lịch Sử */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; }
+.modal.show { display: flex; }
+.modal-content { background-color: #fff; border-radius: 16px; width: 90%; max-width: 500px; max-height: 80vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.modal-header { padding: 16px 24px; background: #FEF3C7; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #FDE68A; }
+.modal-header h2 { font-size: 1.3rem; font-weight: 800; color: #D97706; margin: 0; }
+.btn-close { background: none; border: none; font-size: 2rem; cursor: pointer; color: #B45309; line-height: 0.8; transition: color 0.2s; }
+.btn-close:hover { color: #78350F; }
+.modal-body { padding: 16px; overflow-y: auto; flex: 1; }
+#history-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.history-item { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px 16px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; }
+.history-item:hover { background: #F3F4F6; border-color: #D1D5DB; transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.hist-title { font-weight: 700; color: #4B5563; font-size: 1.05rem; margin-bottom: 4px; }
+.hist-time { font-size: 0.85rem; color: #9CA3AF; font-weight: 600; }
+.btn-outline { background: transparent; color: #3b82f6; border: 2px solid #3b82f6; padding: 12px; border-radius: 14px; cursor: pointer; font-size: 1rem; font-weight: 800; font-family: 'Quicksand', sans-serif; transition: all 0.2s; }
+.btn-outline:hover { background: rgba(59, 130, 246, 0.1); }
+.btn-outline:active { transform: translateY(3px); }

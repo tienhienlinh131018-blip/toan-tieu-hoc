@@ -50,6 +50,7 @@
                 </div>
                 
                 <button id="btn-regen" class="btn-primary" style="width:100%; margin-top:20px; background-color: #3b82f6;">🔄 Tạo Lại Đề Mới</button>
+                <button id="btn-history" class="btn-outline" style="width:100%; margin-top:10px;">🕒 Lịch sử Đề đã tạo</button>
                 <button onclick="window.print()" class="btn-primary" style="width:100%; margin-top:10px;">🖨️ In Đề Bài</button>
             </div>
         </aside>
@@ -87,6 +88,19 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🕒 Lịch sử Đề đã tạo</h2>
+                <button id="btn-close-history" class="btn-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul id="history-list"></ul>
+            </div>
+        </div>
     </div>
 
     <!-- Core Runtime: Tải JS theo cấu trúc module gốc ES6 -->

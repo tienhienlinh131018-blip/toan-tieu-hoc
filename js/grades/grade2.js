@@ -258,7 +258,7 @@ function gen_2_8() {
 
 // Chương 9: Cộng trừ không nhớ PV 1000
 function gen_2_9() {
-    let html = buildSectionTitle("Chương 9: Phép tính không giới hạn trong phạm vi 1000");
+    let html = buildSectionTitle("Chương 9: Phép cộng, trừ (không nhớ) trong phạm vi 1000");
     let c1 = ''; let qIdx = 1;
     let total = distributeExactCount([1])[0];
     
@@ -289,9 +289,51 @@ function gen_2_9() {
     return html + buildGrid(4, c1);
 }
 
-// Chương 10: Đo độ dài nâng cao (km, m) & Tiền
+// Chương 10: Cộng trừ có nhớ PV 1000
 function gen_2_10() {
-    let html = buildSectionTitle("Chương 10: Đo độ dài km, m & Tiền Việt Nam");
+    let html = buildSectionTitle("Chương 10: Phép cộng, phép trừ (có nhớ) trong phạm vi 1000");
+    let c1 = ''; let qIdx = 1;
+    let counts = distributeExactCount([1, 1]); 
+
+    for (let i = 0; i < counts[0]; i++) {
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j);
+            let a_o = rand(5, 9), b_o = rand(10 - a_o, 9);
+            let a_t = rand(5, 9), b_t = rand(10 - a_t, 9);
+            let a_h = rand(1, 4), b_h = rand(1, 8 - a_h);
+            let a = a_h*100 + a_t*10 + a_o; let b = b_h*100 + b_t*10 + b_o; 
+            subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} + ${b} = ${formatAns(a+b)}</div>`;
+        }
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem;">Câu ${qIdx++}: Tính nhẩm</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div></div>`;
+    }
+    
+    let c2 = '';
+    for (let i = 0; i < counts[1]; i++) {
+        let subItems = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j);
+            let a_o = rand(0, 5), b_o = rand(a_o + 1, 9);
+            let a_t = rand(0, 5), b_t = rand(a_t + 1, 9);
+            let a_h = rand(5, 9), b_h = rand(1, a_h - 2);
+            let a = a_h*100 + a_t*10 + a_o; let b = b_h*100 + b_t*10 + b_o; 
+            subItems += `<div class="q-col">
+                <div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div>
+                <div class="val-a">${a}</div><div class="val-op">-</div><div class="val-b">${b}</div>
+                <div class="line"></div><div class="answer">${a-b}</div></div>`;
+        }
+        c2 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 2rem; border-top: 2px dashed #e2e8f0; padding-top: 1.5rem;">
+            <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 2rem;">Câu ${qIdx++}: Đặt tính rồi tính</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems}</div></div>`;
+    }
+    return html + buildGrid(4, c1) + buildGrid(4, c2);
+}
+
+// Chương 11: Đo độ dài nâng cao (km, m) & Tiền
+function gen_2_11() {
+    let html = buildSectionTitle("Chương 11: Đo độ dài km, m & Tiền Việt Nam");
     let c1 = ''; let qIdx = 1;
     let total = distributeExactCount([1])[0];
     
@@ -347,7 +389,7 @@ function gen_2_review_1() {
 }
 
 // HK2 Review
-function gen_2_review_2() {
+function gen_2_12() {
     let html = buildSectionTitle("🌟 ĐỀ ÔN TẬP CHUNG CUỐI NĂM LỚP 2");
     let c = ''; let qIdx = 1;
     let counts = distributeExactCount([5, 5]); 
@@ -384,7 +426,8 @@ export const grade2Topics = [
     { title: "Chương 6: Phép nhân và Phép chia", generate: gen_2_6 },
     { title: "Chương 7: Hình phẳng học & Đo đạc", generate: gen_2_7 },
     { title: "Chương 8: Cấu tạo các số đến 1000", generate: gen_2_8 },
-    { title: "Chương 9: Cộng trừ (P.V 1000)", generate: gen_2_9 },
-    { title: "Chương 10: Độ dài (m, km) & Mệnh giá tiền", generate: gen_2_10 },
-    { title: "🌟 LUYỆN TẬP CHUNG CUỐI NĂM", generate: gen_2_review_2 }
+    { title: "Chương 9: Cộng trừ (Không nhớ) P.V 1000", generate: gen_2_9 },
+    { title: "Chương 10: Cộng trừ (Có nhớ) P.V 1000", generate: gen_2_10 },
+    { title: "Chương 11: Độ dài (m, km) & Mệnh giá tiền", generate: gen_2_11 },
+    { title: "🌟 LUYỆN TẬP CHUNG CUỐI NĂM", generate: gen_2_12 }
 ];

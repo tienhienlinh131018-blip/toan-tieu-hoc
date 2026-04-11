@@ -182,18 +182,37 @@ function gen_c12_1() {
     let html = buildSectionTitle("Chủ đề 12: Cộng trừ (Không nhớ) P.V 1000");
     let c1 = ''; let qIdx = 1;
     let counts = distributeExactCount([1, 1]); 
-    let subItems1 = '';
-    for(let j=0; j<4; j++) {
-        let label = String.fromCharCode(65+j); let isAdd = Math.random() > 0.5; let c, a, b;
-        if (isAdd) {
-            a = rand(1,4)*100 + rand(1,4)*10 + rand(1,4); b = rand(1,5)*100 + rand(1,5)*10 + rand(1,5); c = a+b;
-            subItems1 += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} + ${b} = ${formatAns(c)}</div>`;
-        } else {
-            a = rand(5,9)*100 + rand(5,9)*10 + rand(5,9); b = rand(1,Math.floor(a/100)-1)*100 + rand(1,Math.floor(a/10)-1)*10 + rand(1,a%10-1); c = a-b;
-            subItems1 += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} - ${b} = ${formatAns(c)}</div>`;
+    
+    for (let i = 0; i < counts[0]; i++) {
+        let subItems1 = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j); let isAdd = Math.random() > 0.5; let c, a, b;
+            if (isAdd) {
+                a = rand(1,4)*100 + rand(1,4)*10 + rand(1,4); b = rand(1,5)*100 + rand(1,5)*10 + rand(1,5); c = a+b;
+                subItems1 += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} + ${b} = ${formatAns(c)}</div>`;
+            } else {
+                a = rand(5,9)*100 + rand(5,9)*10 + rand(5,9); b = rand(1,Math.floor(a/100)-1)*100 + rand(1,Math.floor(a/10)-1)*10 + rand(1,a%10-1); c = a-b;
+                subItems1 += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} - ${b} = ${formatAns(c)}</div>`;
+            }
         }
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;"><div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem;">Câu ${qIdx++}: Tính nhẩm không nhớ</div><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems1}</div></div>`;
     }
-    c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;"><div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem;">Câu ${qIdx++}: Tính (Không nhớ)</div><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems1}</div></div>`;
+    
+    for (let i = 0; i < counts[1]; i++) {
+        let subItems2 = '';
+        for(let j=0; j<4; j++) {
+            let label = String.fromCharCode(65+j); let isAdd = Math.random() > 0.5; let c, a, b;
+            if (isAdd) {
+                a = rand(1,4)*100 + rand(1,4)*10 + rand(1,4); b = rand(1,5)*100 + rand(1,5)*10 + rand(1,5); c = a+b;
+                subItems2 += `<div class="q-col"><div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div><div class="val-a">${a}</div><div class="val-op">+</div><div class="val-b">${b}</div><div class="line"></div><div class="answer">${c}</div></div>`;
+            } else {
+                a = rand(5,9)*100 + rand(5,9)*10 + rand(5,9); b = rand(1,Math.floor(a/100)-1)*100 + rand(1,Math.floor(a/10)-1)*10 + rand(1,a%10-1); c = a-b;
+                 subItems2 += `<div class="q-col"><div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div><div class="val-a">${a}</div><div class="val-op">-</div><div class="val-b">${b}</div><div class="line"></div><div class="answer">${c}</div></div>`;
+            }
+        }
+        c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 2rem; border-top: 2px dashed #e2e8f0; padding-top: 1.5rem;"><div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 2rem;">Câu ${qIdx++}: Đặt tính (Không nhớ)</div><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">${subItems2}</div></div>`;
+    }
+
     return html + buildGrid(4, c1);
 }
 

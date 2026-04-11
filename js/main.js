@@ -1,6 +1,6 @@
 // main.js
-import { grade1Topics } from './grades/grade1.js';
-import { grade2Topics } from './grades/grade2.js';
+import { grade1Topics } from './grades/grade1.js?v=3';
+import { grade2Topics } from './grades/grade2.js?v=3';
 // (Sẽ import các lớp khác khi hoàn thiện)
 
 const TOPICS_DB = {

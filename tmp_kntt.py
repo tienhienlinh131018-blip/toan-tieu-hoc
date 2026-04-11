@@ -1,4 +1,6 @@
-import { rand, formatAns, buildSectionTitle, buildGrid, distributeExactCount, shuffle } from '../utils.js';
+import os
+
+file_content = """import { rand, formatAns, buildSectionTitle, buildGrid, distributeExactCount, shuffle } from '../utils.js';
 
 // ============================================
 // HỌC KỲ 1 (Tóm lược làm xương sống móng)
@@ -102,8 +104,8 @@ function gen_c8_2() {
 
 function gen_c8_ltc() {
     let html = buildSectionTitle("Chủ đề 8: Luyện tập chung (Nhân, Chia)");
-    let c1 = gen_c8_1().replace(/Chủ đề 8: P.*?<\/div>/, '').replace(/Câu \d+:/g, 'Câu Luyện Tập:');
-    let c2 = gen_c8_2().replace(/Chủ đề 8: P.*?<\/div>/, '').replace(/Câu \d+:/g, 'Câu Luyện Tập:');
+    let c1 = gen_c8_1().replace(/Chủ đề 8: P.*?<\\/div>/, '').replace(/Câu \\d+:/g, 'Câu Luyện Tập:');
+    let c2 = gen_c8_2().replace(/Chủ đề 8: P.*?<\\/div>/, '').replace(/Câu \\d+:/g, 'Câu Luyện Tập:');
     return buildSectionTitle("Chủ đề 8: Luyện tập chung Nhân và Chia") + '<div style="margin-top:20px;"></div>' + gen_c8_1() + gen_c8_2();
 }
 
@@ -275,7 +277,7 @@ function ltc(title, genFns) {
     let r = buildSectionTitle(title);
     genFns.forEach(fn => { r += '<div style="margin-top:15px;"></div>' + fn(); });
     // Cleanup generated individual titles
-    r = r.replace(/<div class="section-title">.*?<\/div>/g, '');
+    r = r.replace(/<div class="section-title">.*?<\\/div>/g, '');
     return buildSectionTitle(title) + r;
 }
 
@@ -297,3 +299,8 @@ export const grade2Topics = [
     { title: "CĐ13 - Luyện tập chung", generate: gen_c13_1 },
     { title: "CĐ14 - Ôn tập cuối năm toàn diện", generate: gen_c14 }
 ];
+"""
+
+with open(r"C:\Users\Admin\.gemini\antigravity\scratch\primary-math-app\js\grades\grade2.js", "w", encoding="utf-8") as f:
+    f.write(file_content)
+print("Complete")

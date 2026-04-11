@@ -30,7 +30,7 @@ function gen_1_1() {
         c1 += `<div class="q-item" style="grid-column: span 2; margin-bottom: 1.5rem;">
             <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Câu ${qIdx++}: Có bao nhiêu ${item.name}?</div>
             <div style="font-size: 2rem; letter-spacing: 5px; margin-bottom: 1rem; min-height: 3rem;">${objectsHtml}</div>
-            <div style="font-size: 1.2rem;">Trả lời: ................. ${formatAns(count)}</div>
+            <div style="font-size: 1.2rem;">Trả lời: ${formatAns(count)}</div>
         </div>`;
     }
     
@@ -43,9 +43,8 @@ function gen_1_1() {
         if (Math.random() > 0.8) b = a;
         let sign = (a > b) ? '>' : (a < b ? '<' : '=');
         
-        compHtml += `<div style="text-align: center; font-size: 1.6rem; margin-bottom: 1rem;">
-            <div style="margin-bottom: 10px;">${a} &nbsp;&nbsp; ........ &nbsp;&nbsp; ${b}</div>
-            <div style="min-height: 2rem;">${formatAns(sign)}</div>
+        compHtml += `<div style="text-align: center; font-size: 1.6rem; margin-bottom: 2rem;">
+            ${a} ${formatAns(sign)} ${b}
         </div>`;
     }
     

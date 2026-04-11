@@ -38,7 +38,7 @@ function gen_2_1() {
             let a = rand(10, 99); let b = rand(10, 99);
             if (Math.random() > 0.8) b = a;
             let sign = (a > b) ? '>' : (a < b ? '<' : '=');
-            subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} ... ${b} ${formatAns(sign)}</div>`;
+            subItems += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} ${formatAns(sign)} ${b}</div>`;
         }
         c2 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 2rem; border-top: 2px dashed #e2e8f0; padding-top: 1.5rem;">
             <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem;">Câu ${qIdx++}: Điền dấu &gt;, &lt;, =</div>
@@ -301,13 +301,13 @@ function gen_2_10() {
             let v1 = rand(15, 45), v2 = rand(30, 80);
             c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
                 <div style="margin-bottom: 0.8rem; font-size: 1.35rem; font-weight: 700;">Câu ${qIdx++}. Quãng đường từ nhà An đến trường dài ${v2}m. An đã đi được ${v1}m. Hỏi An còn phải đi bao nhiêu mét nữa mới đến trường?</div>
-                <div style="padding-left: 20px; font-weight: bold; font-size: 1.2rem;">Trả lời: ....................... ${formatAns(v2-v1)} m</div></div>`;
+                <div style="padding-left: 20px; font-weight: bold; font-size: 1.2rem;">Trả lời: ${formatAns(v2-v1)} m</div></div>`;
         } else {
             let v1 = rand(1,5) * 1000;
             let v2 = rand(6,10) * 1000;
             c1 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 1.5rem;">
                 <div style="margin-bottom: 0.8rem; font-size: 1.35rem; font-weight: 700;">Câu ${qIdx++}. Mẹ mua mớ rau hết ${v1} đồng. Mẹ đưa cho cô bán rau ${v2} đồng. Cô bán rau phải trả lại mẹ bao nhiêu học tiền?</div>
-                <div style="padding-left: 20px; font-weight: bold; font-size: 1.2rem;">Trả lời: ....................... ${formatAns(v2-v1)} đồng</div></div>`;
+                <div style="padding-left: 20px; font-weight: bold; font-size: 1.2rem;">Trả lời: ${formatAns(v2-v1)} đồng</div></div>`;
         }
     }
     return html + buildGrid(4, c1);

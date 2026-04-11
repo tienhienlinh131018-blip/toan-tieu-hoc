@@ -188,10 +188,14 @@ function gen_c12_1() {
         for(let j=0; j<4; j++) {
             let label = String.fromCharCode(65+j); let isAdd = Math.random() > 0.5; let c, a, b;
             if (isAdd) {
-                a = rand(1,4)*100 + rand(1,4)*10 + rand(1,4); b = rand(1,5)*100 + rand(1,5)*10 + rand(1,5); c = a+b;
+                let a_h = rand(1,4), a_t = rand(1,4), a_o = rand(1,4);
+                let b_h = rand(1,5), b_t = rand(1,5), b_o = rand(1,5);
+                a = a_h*100 + a_t*10 + a_o; b = b_h*100 + b_t*10 + b_o; c = a+b;
                 subItems1 += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} + ${b} = ${formatAns(c)}</div>`;
             } else {
-                a = rand(5,9)*100 + rand(5,9)*10 + rand(5,9); b = rand(1,Math.floor(a/100)-1)*100 + rand(1,Math.floor(a/10)-1)*10 + rand(1,a%10-1); c = a-b;
+                let a_h = rand(5,9), a_t = rand(5,9), a_o = rand(5,9);
+                let b_h = rand(1,a_h-1), b_t = rand(1,a_t-1), b_o = rand(1,a_o-1);
+                a = a_h*100 + a_t*10 + a_o; b = b_h*100 + b_t*10 + b_o; c = a-b;
                 subItems1 += `<div style="font-size: 1.4rem;"><b>${label}.</b> ${a} - ${b} = ${formatAns(c)}</div>`;
             }
         }
@@ -203,10 +207,14 @@ function gen_c12_1() {
         for(let j=0; j<4; j++) {
             let label = String.fromCharCode(65+j); let isAdd = Math.random() > 0.5; let c, a, b;
             if (isAdd) {
-                a = rand(1,4)*100 + rand(1,4)*10 + rand(1,4); b = rand(1,5)*100 + rand(1,5)*10 + rand(1,5); c = a+b;
+                let a_h = rand(1,4), a_t = rand(1,4), a_o = rand(1,4);
+                let b_h = rand(1,5), b_t = rand(1,5), b_o = rand(1,5);
+                a = a_h*100 + a_t*10 + a_o; b = b_h*100 + b_t*10 + b_o; c = a+b;
                 subItems2 += `<div class="q-col"><div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div><div class="val-a">${a}</div><div class="val-op">+</div><div class="val-b">${b}</div><div class="line"></div><div class="answer">${c}</div></div>`;
             } else {
-                a = rand(5,9)*100 + rand(5,9)*10 + rand(5,9); b = rand(1,Math.floor(a/100)-1)*100 + rand(1,Math.floor(a/10)-1)*10 + rand(1,a%10-1); c = a-b;
+                let a_h = rand(5,9), a_t = rand(5,9), a_o = rand(5,9);
+                let b_h = rand(1,a_h-1), b_t = rand(1,a_t-1), b_o = rand(1,a_o-1);
+                a = a_h*100 + a_t*10 + a_o; b = b_h*100 + b_t*10 + b_o; c = a-b;
                  subItems2 += `<div class="q-col"><div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div><div class="val-a">${a}</div><div class="val-op">-</div><div class="val-b">${b}</div><div class="line"></div><div class="answer">${c}</div></div>`;
             }
         }
@@ -223,13 +231,22 @@ function gen_c12_2() {
     for (let i = 0; i < counts; i++) {
         let subItems = '';
         for(let j=0; j<4; j++) {
-            let label = String.fromCharCode(65+j);
-            let a_o=rand(5,9), b_o=rand(10-a_o, 9); let a_t=rand(5,9), b_t=rand(10-a_t, 9); let a_h=rand(1,4), b_h=rand(1,8-a_h);
-            let a = a_h*100+a_t*10+a_o; let b = b_h*100+b_t*10+b_o; 
-            subItems += `<div class="q-col">
-                <div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div>
-                <div class="val-a">${a}</div><div class="val-op">+</div><div class="val-b">${b}</div>
-                <div class="line"></div><div class="answer">${a+b}</div></div>`;
+            let label = String.fromCharCode(65+j); let isAdd = Math.random() > 0.5; let a, b, c;
+            if(isAdd) {
+                let a_o=rand(5,9), b_o=rand(10-a_o, 9); let a_t=rand(5,9), b_t=rand(10-a_t, 9); let a_h=rand(1,4), b_h=rand(1,8-a_h);
+                a = a_h*100+a_t*10+a_o; b = b_h*100+b_t*10+b_o; c = a+b;
+                subItems += `<div class="q-col">
+                    <div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div>
+                    <div class="val-a">${a}</div><div class="val-op">+</div><div class="val-b">${b}</div>
+                    <div class="line"></div><div class="answer">${c}</div></div>`;
+            } else {
+                let a_o=rand(0,5), b_o=rand(a_o+1, 9); let a_t=rand(0,5), b_t=rand(a_t+1, 9); let a_h=rand(5,9), b_h=rand(1,a_h-2);
+                a = a_h*100+a_t*10+a_o; b = b_h*100+b_t*10+b_o; c = a-b;
+                subItems += `<div class="q-col">
+                    <div style="position: absolute; left: -25px; top: 0px; font-size: 1.2rem; color:#64748b; font-weight:700;">${label}.</div>
+                    <div class="val-a">${a}</div><div class="val-op">-</div><div class="val-b">${b}</div>
+                    <div class="line"></div><div class="answer">${c}</div></div>`;
+            }
         }
         c2 += `<div class="q-item" style="grid-column: span 4; margin-bottom: 2rem; padding-top: 1.5rem;">
             <div style="font-size: 1.35rem; font-weight: 700; margin-bottom: 2rem;">Câu ${qIdx++}: Đặt tính (Có nhớ)</div>
